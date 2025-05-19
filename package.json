@@ -39,6 +39,10 @@
       {
         "command": "railnami.generateTestForCurrentFile",
         "title": "Railnami: Generate Test for Current File"
+      },
+      {
+        "command": "railnami.openTestForCurrentFile",
+        "title": "Railnami: Open Test for Current File"
       }
     ]
   },
