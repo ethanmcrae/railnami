@@ -43,6 +43,34 @@
       {
         "command": "railnami.openTestForCurrentFile",
         "title": "Railnami: Open Test for Current File"
+      },
+      {
+        "command": "railnami.runTestForCurrentFile",
+        "title": "Railnami: Run Test for Current File"
+      },
+      {
+        "command": "railnami.insertSnippet.if",
+        "title": "Railnami: Insert Snippet: if"
+      },
+      {
+        "command": "railnami.insertSnippet.elsif",
+        "title": "Railnami: Insert Snippet: elsif"
+      },
+      {
+        "command": "railnami.insertSnippet.else",
+        "title": "Railnami: Insert Snippet: else"
+      },
+      {
+        "command": "railnami.insertSnippet.end",
+        "title": "Railnami: Insert Snippet: end"
+      },
+      {
+        "command": "railnami.insertSnippet.ifend",
+        "title": "Railnami: Insert Snippet: if-end"
+      },
+      {
+        "command": "railnami.insertSnippet.ifelsend",
+        "title": "Railnami: Insert Snippet: if-elsif-end"
       }
     ]
   },

@@ -3,6 +3,7 @@ import { RailnamiTreeProvider } from './ui/treeProvider';
 import { generateTestForCurrentFile } from './commands/generateTest';
 import { runTestForCurrentFile } from './commands/runTest';
 import { openTestForCurrentFile } from './commands/openTest';
+import { registerSnippetCommands } from './commands/insertSnippet';
 
 export function activate(context: vscode.ExtensionContext): void {
   const treeProvider = new RailnamiTreeProvider();
@@ -39,6 +40,8 @@ export function activate(context: vscode.ExtensionContext): void {
       vscode.window.showErrorMessage('Error: Can only create test files for supported Rails classes.')
     )
   );
+
+  registerSnippetCommands(context);
 }
 
 export function deactivate(): void {
