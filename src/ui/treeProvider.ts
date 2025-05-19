@@ -16,8 +16,8 @@ export class RailnamiTreeProvider implements vscode.TreeDataProvider<ScriptItem>
   private currentMapping: RailsMapping | null = null;
 
   /** Notify the tree that the active editor has changed. */
-  updateForFile(filePath: string): void {
-    this.currentFilePath = vscode.workspace.asRelativePath(filePath);
+  updateForFile(filePath: string | undefined): void {
+    this.currentFilePath = vscode.workspace.asRelativePath(filePath || '');
     this.currentMapping = getRailsMapping(this.currentFilePath);
     this._onDidChangeTreeData.fire(undefined);
   }

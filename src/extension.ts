@@ -4,6 +4,8 @@ import { generateTestForCurrentFile } from './commands/generateTest';
 import { runTestForCurrentFile } from './commands/runTest';
 import { openTestForCurrentFile } from './commands/openTest';
 import { registerSnippetCommands } from './commands/insertSnippet';
+import { renderPartial } from './commands/renderPartial';
+import { MemoryStore } from './memory/memoryStore';
 
 export function activate(context: vscode.ExtensionContext): void {
   const treeProvider = new RailnamiTreeProvider();
@@ -19,9 +21,12 @@ export function activate(context: vscode.ExtensionContext): void {
 
   // Refresh when the user switches editors
   context.subscriptions.push(
-    vscode.window.onDidChangeActiveTextEditor(editor =>
-      treeProvider.updateForFile(editor?.document.uri.fsPath || '')
-    )
+    vscode.window.onDidChangeActiveTextEditor(editor => {
+      const currentFilePath = editor?.document.uri.fsPath;
+
+      treeProvider.updateForFile(currentFilePath);
+      MemoryStore.editorUpdate();
+    })
   );
 
   // Refresh when any *_test.rb file is created
@@ -36,6 +41,7 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand('railnami.generateTestForCurrentFile', generateTestForCurrentFile),
     vscode.commands.registerCommand('railnami.openTestForCurrentFile', openTestForCurrentFile),
     vscode.commands.registerCommand('railnami.runTestForCurrentFile', runTestForCurrentFile),
+    vscode.commands.registerCommand('railnami.renderPartial', renderPartial),
     vscode.commands.registerCommand('railnami.unsupportedFile', () =>
       vscode.window.showErrorMessage('Error: Can only create test files for supported Rails classes.')
     )

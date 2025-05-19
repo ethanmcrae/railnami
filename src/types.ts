@@ -7,3 +7,8 @@ export interface RailsMapping {
   className: string;
   fileType: FileType;
 }
+
+export interface MemoryEntry {
+  fileName: string;
+  timestamp: number;
+}

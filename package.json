@@ -71,6 +71,10 @@
       {
         "command": "railnami.insertSnippet.ifelsend",
         "title": "Railnami: Insert Snippet: if-elsif-end"
+      },
+      {
+        "command": "railnami.renderPartial",
+        "title": "Railnami: Render partial snippet"
       }
     ]
   },
