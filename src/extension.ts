@@ -30,10 +30,11 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 
   // Refresh when any *_test.rb file is created
+  //? I don't think this is needed?
   const testWatcher = vscode.workspace.createFileSystemWatcher('**/*_test.rb', false, true, true);
   context.subscriptions.push(
     testWatcher,
-    testWatcher.onDidCreate(uri => treeProvider.updateForFile(uri.fsPath))
+    testWatcher.onDidCreate(treeProvider.refresh)
   );
 
   // Commands

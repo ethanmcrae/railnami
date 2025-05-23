@@ -15,11 +15,16 @@ export class RailnamiTreeProvider implements vscode.TreeDataProvider<ScriptItem>
   private currentFilePath = '';
   private currentMapping: RailsMapping | null = null;
 
+  // Triggers this.getChildren() to fire
+  refresh() {
+    this._onDidChangeTreeData.fire(undefined);
+  }
+
   /** Notify the tree that the active editor has changed. */
   updateForFile(filePath: string | undefined): void {
     this.currentFilePath = vscode.workspace.asRelativePath(filePath || '');
     this.currentMapping = getRailsMapping(this.currentFilePath);
-    this._onDidChangeTreeData.fire(undefined);
+    this.refresh();
   }
 
   getTreeItem(element: ScriptItem): vscode.TreeItem {
@@ -29,14 +34,13 @@ export class RailnamiTreeProvider implements vscode.TreeDataProvider<ScriptItem>
   async getChildren(): Promise<ScriptItem[]> {
     const items: ScriptItem[] = [];
     const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-    const isTestFile = /_test\.rb$/.test(this.currentFilePath);
+    const { fileType } = this.currentMapping || {};
 
-    if (isTestFile) {
+    if (fileType === 'test') {
       items.push(createRunTestButton(this.currentMapping));
       return items;
     }
-
-    if (workspaceFolder && this.currentMapping && this.currentMapping.fileType === 'source') {
+    else if (workspaceFolder && this.currentMapping) {
       const { generatorType, className } = this.currentMapping;
       const testFileUri = getExpectedTestPath(generatorType, className, workspaceFolder);
       if (await fileExists(testFileUri)) {

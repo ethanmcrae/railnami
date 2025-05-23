@@ -1,11 +1,31 @@
-export type RailsGeneratorType = 'model' | 'controller' | 'job' | 'mailer' | 'channel';
+export type RailsGeneratorType =
+  | 'model'
+  | 'controller'
+  | 'job'
+  | 'mailer'
+  | 'channel'
+  | 'stimulusController'
+  | 'modelConcern'
+  | 'controllerConcern'
+  | 'other';
 
-export type FileType = 'source' | 'test';
+export type RailsFileType =
+  | 'other'
+  | 'test'
+  | 'stimulusController'
+  | 'modelConcern'
+  | 'controllerConcern'
+  | 'model'
+  | 'view'
+  | 'controller'
+  | 'job'
+  | 'mailer'
+  | 'channel';
 
 export interface RailsMapping {
   generatorType: RailsGeneratorType;
   className: string;
-  fileType: FileType;
+  fileType: RailsFileType;
 }
 
 export interface MemoryEntry {
