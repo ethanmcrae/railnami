@@ -29,9 +29,9 @@ export class MemoryStore {
   }
 
   private static cleanup(): void {
-    const cutoff = Date.now() - FIVE_MINUTES;
+    const cutoff = Date.now() - TEN_MINUTES;
     this.recentPartials = this.recentPartials.filter(p => p.timestamp > cutoff);
   }
 }
 
-const FIVE_MINUTES = 5 * 60 * 1000;
+const TEN_MINUTES = 10 * 60 * 1000;

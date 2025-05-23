@@ -4,19 +4,21 @@ import { removeFileEnding } from '../utils/fileUtils';
 /**
  * Test if the current file is a partial.
  */
-export function isPartialPath(shared = false): string | null {
+export function isPartialPath(): string | null {
   const editor = vscode.window.activeTextEditor;
   if (!editor) { return null; }
-
-  const currentFilePath = editor.document.uri.fsPath.split('/');
-  const fileName = currentFilePath.pop();
-  if (!fileName) { return null; }
-  
-  const sharedConditional = !shared || (currentFilePath.pop() === 'shared');
+  // Get path to current file
+  const path = editor.document.uri.fsPath.split('/');
+  const fileName = path.at(-1);
+  if (fileName === undefined) { return null; }
+  // Test to see if it is a partial file
   const isPartial = /^_.*\.html\.erb$/.test(fileName); // e.g. _[file-name].html.erb
-
-  if (isPartial && sharedConditional) {
-    return removeFileEnding(fileName.slice(1)); // Strip off the "_" prefix and file name ending
-  }
-  return null;
+  if (!isPartial) { return null; }
+  // Format the path from the views directory
+  path[path.length - 1] = removeFileEnding(path.at(-1)!.slice(1));
+  const viewsIndex = path.indexOf('views');
+  const partialPath = path.slice(viewsIndex + 1).join('/');
+  if (!partialPath) { return null; }
+  // Return if it was a valid path
+  return partialPath;
 }
