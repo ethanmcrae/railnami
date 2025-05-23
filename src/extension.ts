@@ -41,7 +41,7 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand('railnami.generateTestForCurrentFile', generateTestForCurrentFile),
     vscode.commands.registerCommand('railnami.openTestForCurrentFile', openTestForCurrentFile),
     vscode.commands.registerCommand('railnami.runTestForCurrentFile', runTestForCurrentFile),
-    vscode.commands.registerCommand('railnami.renderPartial', renderPartial),
+    vscode.commands.registerCommand('railnami.insertSnippet.renderPartial', renderPartial),
     vscode.commands.registerCommand('railnami.unsupportedFile', () =>
       vscode.window.showErrorMessage('Error: Can only create test files for supported Rails classes.')
     )

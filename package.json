@@ -49,6 +49,14 @@
         "title": "Railnami: Run Test for Current File"
       },
       {
+        "command": "railnami.insertSnippet.empty",
+        "title": "Railnami: Insert Snippet: empty"
+      },
+      {
+        "command": "railnami.insertSnippet.erb",
+        "title": "Railnami: Insert Snippet: ERB"
+      },
+      {
         "command": "railnami.insertSnippet.if",
         "title": "Railnami: Insert Snippet: if"
       },
@@ -73,8 +81,12 @@
         "title": "Railnami: Insert Snippet: if-elsif-end"
       },
       {
-        "command": "railnami.renderPartial",
-        "title": "Railnami: Render partial snippet"
+        "command": "railnami.insertSnippet.partialLocals",
+        "title": "Railnami: Insert Snippet: partial locals"
+      },
+      {
+        "command": "railnami.insertSnippet.renderPartial",
+        "title": "Railnami: Insert Snippet: render partial"
       }
     ]
   },
