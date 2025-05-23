@@ -7,6 +7,7 @@ import { ScriptItem } from '../ui/scriptItem';
 import createGenerateTestButton from './buttons/createGenerateTest';
 import createRunTestButton from './buttons/createRunTest';
 import openTestFileButton from './buttons/openTestFile';
+import createStimulusController from './buttons/createStimulusController';
 
 export class RailnamiTreeProvider implements vscode.TreeDataProvider<ScriptItem> {
   private _onDidChangeTreeData = new vscode.EventEmitter<ScriptItem | undefined>();
@@ -32,15 +33,17 @@ export class RailnamiTreeProvider implements vscode.TreeDataProvider<ScriptItem>
   }
 
   async getChildren(): Promise<ScriptItem[]> {
+    if (!this.currentMapping) { return []; } // Guard
+
     const items: ScriptItem[] = [];
     const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-    const { fileType } = this.currentMapping || {};
+    const { fileType } = this.currentMapping;
 
     if (fileType === 'test') {
       items.push(createRunTestButton(this.currentMapping));
       return items;
     }
-    else if (workspaceFolder && this.currentMapping) {
+    else if (workspaceFolder) {
       const { generatorType, className } = this.currentMapping;
       const testFileUri = getExpectedTestPath(generatorType, className, workspaceFolder);
       if (await fileExists(testFileUri)) {
@@ -49,6 +52,8 @@ export class RailnamiTreeProvider implements vscode.TreeDataProvider<ScriptItem>
         items.push(createGenerateTestButton(this.currentMapping));
       }
     }
+
+    items.push(createStimulusController(this.currentMapping));
 
     return items;
   }

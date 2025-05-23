@@ -6,6 +6,7 @@ import { openTestForCurrentFile } from './commands/openTest';
 import { registerSnippetCommands } from './commands/insertSnippet';
 import { renderPartial } from './commands/renderPartial';
 import { MemoryStore } from './memory/memoryStore';
+import { createStimulusController } from './commands/createStimulusController';
 
 export function activate(context: vscode.ExtensionContext): void {
   const treeProvider = new RailnamiTreeProvider();
@@ -42,6 +43,7 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand('railnami.generateTestForCurrentFile', generateTestForCurrentFile),
     vscode.commands.registerCommand('railnami.openTestForCurrentFile', openTestForCurrentFile),
     vscode.commands.registerCommand('railnami.runTestForCurrentFile', runTestForCurrentFile),
+    vscode.commands.registerCommand('railnami.createStimulusController', createStimulusController),
     vscode.commands.registerCommand('railnami.insertSnippet.renderPartial', renderPartial),
     vscode.commands.registerCommand('railnami.unsupportedFile', () =>
       vscode.window.showErrorMessage('Error: Can only create test files for supported Rails classes.')

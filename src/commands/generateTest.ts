@@ -25,7 +25,7 @@ export async function generateTestForCurrentFile(): Promise<void> {
     return;
   }
 
-  const terminal = getOrCreateTerminal('Rails Generator');
+  const terminal = getOrCreateTerminal('Railnami');
   terminal.show();
   terminal.sendText(`bin/rails generate test_unit:${generatorType} ${className}`);
 
@@ -34,11 +34,8 @@ export async function generateTestForCurrentFile(): Promise<void> {
   // vscode.workspace.onDidCreateFiles for real‑time events.
   setTimeout(async () => {
     if (await fileExists(testFileUri)) {
-      const selection = await vscode.window.showInformationMessage(`Created test file for ${className}`, 'Open Test File');
-      if (selection === 'Open Test File') {
-        const doc = await vscode.workspace.openTextDocument(testFileUri);
-        await vscode.window.showTextDocument(doc);
-      }
+      const doc = await vscode.workspace.openTextDocument(testFileUri);
+      await vscode.window.showTextDocument(doc);
     }
-  }, 1000);
+  }, 500);
 }

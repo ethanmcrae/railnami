@@ -49,6 +49,10 @@
         "title": "Railnami: Run Test for Current File"
       },
       {
+        "command": "railnami.createStimulusController",
+        "title": "Railnami: Create Stimulus Controller"
+      },
+      {
         "command": "railnami.insertSnippet.empty",
         "title": "Railnami: Insert Snippet: empty"
       },
