@@ -30,13 +30,13 @@ export function activate(context: vscode.ExtensionContext): void {
     })
   );
 
+  //! I don't think this is needed? Commenting out for now. Delete if no problems arise.
   // Refresh when any *_test.rb file is created
-  //? I don't think this is needed?
-  const testWatcher = vscode.workspace.createFileSystemWatcher('**/*_test.rb', false, true, true);
-  context.subscriptions.push(
-    testWatcher,
-    testWatcher.onDidCreate(treeProvider.refresh)
-  );
+  // const testWatcher = vscode.workspace.createFileSystemWatcher('**/*_test.rb', false, true, true);
+  // context.subscriptions.push(
+  //   testWatcher,
+  //   testWatcher.onDidCreate(treeProvider.refresh)
+  // );
 
   // Commands
   context.subscriptions.push(

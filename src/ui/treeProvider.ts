@@ -38,12 +38,13 @@ export class RailnamiTreeProvider implements vscode.TreeDataProvider<ScriptItem>
     const items: ScriptItem[] = [];
     const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
     const { fileType } = this.currentMapping;
+    const isTestable = ['model', 'controller'].includes(fileType);
 
     if (fileType === 'test') {
       items.push(createRunTestButton(this.currentMapping));
       return items;
     }
-    else if (workspaceFolder) {
+    else if (isTestable && workspaceFolder) {
       const { generatorType, className } = this.currentMapping;
       const testFileUri = getExpectedTestPath(generatorType, className, workspaceFolder);
       if (await fileExists(testFileUri)) {
