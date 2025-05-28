@@ -1,3 +1,5 @@
+import { Uri } from "vscode";
+
 export type RailsGeneratorType =
   | 'model'
   | 'controller'
@@ -30,5 +32,6 @@ export interface RailsMapping {
 
 export interface MemoryEntry {
   fileName: string;
+  uri: Uri;
   timestamp: number;
 }

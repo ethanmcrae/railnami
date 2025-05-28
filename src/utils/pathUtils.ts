@@ -1,3 +1,5 @@
+import * as vscode from 'vscode';
+
 /** Convert snake‑case or path to Ruby constant (e.g. "admin/users" → "Admin::Users"). */
 export function classify(pathPart: string): string {
   return pathPart

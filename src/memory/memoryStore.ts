@@ -1,3 +1,4 @@
+import { Uri } from "vscode";
 import { isPartialPath } from "../rails/partialPath";
 import { MemoryEntry } from "../types";
 
@@ -8,24 +9,23 @@ export class MemoryStore {
   static editorUpdate(): void {
     this.cleanup();
 
-    const partialName = isPartialPath();
-    if (partialName) {
-      this.addRecentPartial(partialName);
+    const [ partialName, partialUri ] = isPartialPath();
+    if (partialName && partialUri) {
+      this.addRecentPartial(partialName, partialUri);
     }
   }
 
-  static addRecentPartial(fileName: string): void {
+  static addRecentPartial(fileName: string, uri: Uri): void {
     this.cleanup();
     const now = Date.now();
-    this.recentPartials.push({ fileName, timestamp: now });
+    this.recentPartials.push({ fileName, uri, timestamp: now });
   }
 
-  static getRecentPartials(amount: number): string[] {
+  static getRecentPartials(amount: number): MemoryEntry[] {
     this.cleanup();
     return this.recentPartials
       .slice(0, amount)
-      .sort((a, b) => b.timestamp - a.timestamp)
-      .map(p => p.fileName);
+      .sort((a, b) => b.timestamp - a.timestamp);
   }
 
   private static cleanup(): void {
