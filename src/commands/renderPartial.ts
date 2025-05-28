@@ -8,7 +8,9 @@ export async function renderPartial(): Promise<void> {
   if (!editor) { return; }
 
   const recentPartials = MemoryStore.getRecentPartials(7);
-  const partialOptions = recentPartials.map(data => ({ ...data, label: data.fileName }));
+  const partialOptions = recentPartials
+    .filter(data => data.uri.toString() !== editor.document.uri.toString()) // Filter current file
+    .map(data => ({ ...data, label: data.fileName })); // Comply with type: QuickPickOptions
   if (recentPartials.length > 0) {
     vscode.window.showQuickPick(partialOptions, {
       placeHolder: 'Select a partial to insert'
