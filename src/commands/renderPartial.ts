@@ -5,12 +5,21 @@ export async function renderPartial(): Promise<void> {
   const editor = vscode.window.activeTextEditor;
   if (!editor) { return; }
 
-  const snippet = new vscode.SnippetString('<%= render "${1:partial_name}"$0 %>');
+  const snippet = new vscode.SnippetString('<%= render "$1"$0 %>');
   editor.insertSnippet(snippet);
 
-  const recentPartials = MemoryStore.getRecentPartials(5);
+  const recentPartials = MemoryStore.getRecentPartials(7);
   if (recentPartials.length > 0) {
-    const partialsString = recentPartials.join(', ');
-    vscode.window.showInformationMessage('Recent partials: ' + partialsString);
+    vscode.window.showQuickPick(recentPartials, {
+      placeHolder: 'Select a partial to insert'
+    }).then(selected => {
+      if (!selected) { return; } // User canceled
+      editor.edit(editBuilder => {
+        // Insert at current cursor position(s)
+        editor.selections.forEach(selection => {
+          editBuilder.insert(selection.active, selected);
+        });
+      });
+    });
   }
 }
