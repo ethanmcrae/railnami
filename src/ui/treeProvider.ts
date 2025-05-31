@@ -9,6 +9,7 @@ import createRunTestButton from './buttons/createRunTest';
 import openTestFileButton from './buttons/openTest';
 import createStimulusController from './buttons/createStimulusController';
 import showExpectedMVCButtons from './showExpectedMVCButtons';
+import showSchema from './showSchema';
 
 export class RailnamiTreeProvider implements vscode.TreeDataProvider<ScriptItem> {
   private _onDidChangeTreeData = new vscode.EventEmitter<ScriptItem | undefined>();
@@ -57,6 +58,7 @@ export class RailnamiTreeProvider implements vscode.TreeDataProvider<ScriptItem>
     }
 
     await showExpectedMVCButtons(workspaceFolder, this.currentMapping, items);
+    await showSchema(this.currentMapping, items);
 
     items.push(createStimulusController(this.currentMapping));
 

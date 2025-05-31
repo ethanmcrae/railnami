@@ -101,6 +101,10 @@
       {
         "command": "railnami.railnami.openExpectedControllerFile",
         "title": "Railnami: View Expected Controller File"
+      },
+      {
+        "command": "railnami.openSchemaToTable",
+        "title": "Railnami: Open Schema.rb File to View The Expected Table"
       }
     ]
   },

@@ -8,6 +8,7 @@ import { renderPartial } from './commands/renderPartial';
 import { MemoryStore } from './memory/memoryStore';
 import { createStimulusController } from './commands/createStimulusController';
 import { openControllerForCurrentFile, openModelForCurrentFile, openViewForCurrentFile } from './commands/openExpectedMVC';
+import openSchemaAtTable from './commands/openSchema';
 
 export function activate(context: vscode.ExtensionContext): void {
   const treeProvider = new RailnamiTreeProvider();
@@ -48,7 +49,8 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand('railnami.insertSnippet.renderPartial', renderPartial),
     vscode.commands.registerCommand('railnami.openExpectedModelFile', openModelForCurrentFile),
     vscode.commands.registerCommand('railnami.openExpectedViewFiles', openViewForCurrentFile),
-    vscode.commands.registerCommand('railnami.openExpectedControllerFile', openControllerForCurrentFile)
+    vscode.commands.registerCommand('railnami.openExpectedControllerFile', openControllerForCurrentFile),
+    vscode.commands.registerCommand('railnami.openSchemaToTable', openSchemaAtTable),
   );
 
   registerSnippetCommands(context);

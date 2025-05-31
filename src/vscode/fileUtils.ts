@@ -30,12 +30,21 @@ export async function findFileUri(relativePath: string) {
   return files.length > 0 ? files[0] : null;
 }
 
+export function fileNameFromUri(uri: vscode.Uri): string {
+  return uri.path.split('/').pop() || '';
+}
+
 export function getWorkspaceFolder(): vscode.WorkspaceFolder | undefined {
     const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
     if (!workspaceFolder) {
       vscode.window.showErrorMessage('No workspace folder found.');
     }
     return workspaceFolder;
+}
+
+export async function openFile(fileUri: vscode.Uri): Promise<void> {
+  const document = await vscode.workspace.openTextDocument(fileUri);
+  await vscode.window.showTextDocument(document, { preview: false });
 }
 
 // Potential future helpers: readFileAsString, writeFile, ensureDir, etc.
