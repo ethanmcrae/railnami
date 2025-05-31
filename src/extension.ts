@@ -7,6 +7,7 @@ import { registerSnippetCommands } from './commands/insertSnippet';
 import { renderPartial } from './commands/renderPartial';
 import { MemoryStore } from './memory/memoryStore';
 import { createStimulusController } from './commands/createStimulusController';
+import { openControllerForCurrentFile, openModelForCurrentFile, openViewForCurrentFile } from './commands/openExpectedMVC';
 
 export function activate(context: vscode.ExtensionContext): void {
   const treeProvider = new RailnamiTreeProvider();
@@ -45,9 +46,9 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand('railnami.runTestForCurrentFile', runTestForCurrentFile),
     vscode.commands.registerCommand('railnami.createStimulusController', createStimulusController),
     vscode.commands.registerCommand('railnami.insertSnippet.renderPartial', renderPartial),
-    vscode.commands.registerCommand('railnami.unsupportedFile', () =>
-      vscode.window.showErrorMessage('Error: Can only create test files for supported Rails classes.')
-    )
+    vscode.commands.registerCommand('railnami.openExpectedModelFile', openModelForCurrentFile),
+    vscode.commands.registerCommand('railnami.openExpectedViewFiles', openViewForCurrentFile),
+    vscode.commands.registerCommand('railnami.openExpectedControllerFile', openControllerForCurrentFile)
   );
 
   registerSnippetCommands(context);

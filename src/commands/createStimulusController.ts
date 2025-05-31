@@ -1,13 +1,11 @@
 import * as vscode from 'vscode';
 import stimulusControllerTemplate from '../templates/stimulusController';
 import { stripControllerSuffix, toSnakeCase } from '../utils/fileUtils';
+import { getWorkspaceFolder } from '../vscode/fileUtils';
 
 export async function createStimulusController(): Promise<void> {
-  const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-  if (!workspaceFolder) {
-    vscode.window.showErrorMessage('No workspace folder found.');
-    return;
-  }
+  const workspaceFolder = getWorkspaceFolder();
+  if (!workspaceFolder) return;
 
   // Get a polished controller name response from the developer
   let controllerName = await vscode.window.showInputBox({

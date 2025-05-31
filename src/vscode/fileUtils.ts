@@ -30,4 +30,12 @@ export async function findFileUri(relativePath: string) {
   return files.length > 0 ? files[0] : null;
 }
 
+export function getWorkspaceFolder(): vscode.WorkspaceFolder | undefined {
+    const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+    if (!workspaceFolder) {
+      vscode.window.showErrorMessage('No workspace folder found.');
+    }
+    return workspaceFolder;
+}
+
 // Potential future helpers: readFileAsString, writeFile, ensureDir, etc.

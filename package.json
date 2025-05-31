@@ -89,6 +89,18 @@
       {
         "command": "railnami.insertSnippet.renderPartial",
         "title": "Railnami: Insert Snippet: render partial"
+      },
+      {
+        "command": "railnami.railnami.openExpectedModelFile",
+        "title": "Railnami: View Expected Model File"
+      },
+      {
+        "command": "railnami.railnami.openExpectedViewFiles",
+        "title": "Railnami: View Expected View Files"
+      },
+      {
+        "command": "railnami.railnami.openExpectedControllerFile",
+        "title": "Railnami: View Expected Controller File"
       }
     ]
   },
@@ -107,6 +119,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
+    "@types/pluralize": "^0.0.33",
     "@types/vscode": "^1.89.0",
     "@typescript-eslint/eslint-plugin": "^7.7.1",
     "@typescript-eslint/parser": "^7.7.1",

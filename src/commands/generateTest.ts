@@ -1,29 +1,19 @@
 import * as vscode from 'vscode';
 import { getRailsMapping } from '../rails/mapping';
-import { getExpectedTestPath } from '../rails/testPath';
-import { fileExists } from '../vscode/fileUtils';
+import { getExpectedTestPath } from '../rails/expectedPaths';
+import { fileExists, getWorkspaceFolder } from '../vscode/fileUtils';
 import { getOrCreateTerminal } from '../vscode/terminal';
 
 export async function generateTestForCurrentFile(): Promise<void> {
-  const editor = vscode.window.activeTextEditor;
-  if (!editor) {
-    vscode.window.showErrorMessage('No active editor with a Rails file.');
-    return;
-  }
-
-  const filePath = vscode.workspace.asRelativePath(editor.document.uri.fsPath);
-  const mapping = getRailsMapping(filePath);
+  const mapping = getRailsMapping();
   if (!mapping || mapping.fileType === 'test') {
     vscode.window.showWarningMessage('Select a Rails class (model, controller, …) to generate tests for.');
     return;
   }
 
   const { generatorType, className } = mapping;
-  const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-  if (!workspaceFolder) {
-    vscode.window.showErrorMessage('No workspace folder found.');
-    return;
-  }
+  const workspaceFolder = getWorkspaceFolder();
+  if (!workspaceFolder) return;
 
   const terminal = getOrCreateTerminal('Railnami');
   terminal.show();

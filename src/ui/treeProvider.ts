@@ -1,13 +1,14 @@
 import * as vscode from 'vscode';
 import { RailsMapping } from '../types';
 import { getRailsMapping } from '../rails/mapping';
-import { getExpectedTestPath } from '../rails/testPath';
-import { fileExists } from '../vscode/fileUtils';
+import { getExpectedTestPath, getExpectedViewPath } from '../rails/expectedPaths';
+import { fileExists, getWorkspaceFolder } from '../vscode/fileUtils';
 import { ScriptItem } from '../ui/scriptItem';
 import createGenerateTestButton from './buttons/createGenerateTest';
 import createRunTestButton from './buttons/createRunTest';
-import openTestFileButton from './buttons/openTestFile';
+import openTestFileButton from './buttons/openTest';
 import createStimulusController from './buttons/createStimulusController';
+import showExpectedMVCButtons from './showExpectedMVCButtons';
 
 export class RailnamiTreeProvider implements vscode.TreeDataProvider<ScriptItem> {
   private _onDidChangeTreeData = new vscode.EventEmitter<ScriptItem | undefined>();
@@ -32,12 +33,14 @@ export class RailnamiTreeProvider implements vscode.TreeDataProvider<ScriptItem>
     return element;
   }
 
-  async getChildren(): Promise<ScriptItem[]> {
-    if (!this.currentMapping) { return []; } // Guard
+  async onRefresh(): Promise<ScriptItem[]> {
+    if (!this.currentMapping) return []; // Guard
+    
+  const workspaceFolder = getWorkspaceFolder();
+  if (!workspaceFolder) return [];
 
     const items: ScriptItem[] = [];
-    const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-    const { fileType } = this.currentMapping;
+    const { fileType, generatorType, className } = this.currentMapping;
     const isTestable = ['model', 'controller'].includes(fileType);
 
     if (fileType === 'test') {
@@ -45,7 +48,6 @@ export class RailnamiTreeProvider implements vscode.TreeDataProvider<ScriptItem>
       return items;
     }
     else if (isTestable && workspaceFolder) {
-      const { generatorType, className } = this.currentMapping;
       const testFileUri = getExpectedTestPath(generatorType, className, workspaceFolder);
       if (await fileExists(testFileUri)) {
         items.push(openTestFileButton(this.currentMapping));
@@ -54,8 +56,12 @@ export class RailnamiTreeProvider implements vscode.TreeDataProvider<ScriptItem>
       }
     }
 
+    await showExpectedMVCButtons(workspaceFolder, this.currentMapping, items);
+
     items.push(createStimulusController(this.currentMapping));
 
     return items;
   }
+
+  async getChildren(): Promise<ScriptItem[]> { return this.onRefresh(); }
 }

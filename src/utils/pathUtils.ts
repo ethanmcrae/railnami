@@ -1,11 +1,13 @@
+import pluralize from 'pluralize';
 import * as vscode from 'vscode';
 
 /** Convert snake‑case or path to Ruby constant (e.g. "admin/users" → "Admin::Users"). */
 export function classify(pathPart: string): string {
-  return pathPart
+  const pathPartPlural = pathPart
     .split('/')
     .map(seg => seg.replace(/(?:^|_)([a-z])/g, (_, c: string) => c.toUpperCase()))
     .join('::');
+  return pluralize.singular(pathPartPlural);
 }
 
 /** Convert Ruby constant to snake_case file name (e.g. "Admin::User" → "admin_user"). */

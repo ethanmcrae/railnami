@@ -1,3 +1,4 @@
+import * as vscode from 'vscode';
 import { RailsFileType, RailsGeneratorType, RailsMapping } from '../types';
 import { classify } from '../utils/pathUtils';
 
@@ -38,7 +39,14 @@ const testMatchers: Matcher<any, any>[] = [
   { pattern: /^test\/channels\/(.+?)_channel_test\.rb$/, generatorType: 'channel', fileType: 'test' }
 ];
 
-export function getRailsMapping(filePath: string): RailsMapping | null {
+export function getRailsMapping(filePath?: string): RailsMapping | null {
+  if (!filePath) {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) return null;
+
+    filePath = vscode.workspace.asRelativePath(editor.document.uri.fsPath);
+  }
+
   for (const m of sourceMatchers) {
     const match = filePath.match(m.pattern);
     if (match) {
