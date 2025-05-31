@@ -11,7 +11,7 @@ export function getExpectedTestPath(
   className: string,
   workspaceFolder: vscode.WorkspaceFolder
 ): vscode.Uri {
-  const fileName = demodulizeToFileName(className);
+  const fileName = demodulizeToFileName(className, "plural");
   return vscode.Uri.joinPath(
     workspaceFolder.uri,
     `test/${pluralize(generatorType)}`,
