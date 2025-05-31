@@ -2,8 +2,10 @@ import * as vscode from 'vscode';
 
 export function registerSnippetCommands(context: vscode.ExtensionContext) {
   const snippets: Record<string, string> = {
-    empty: '<% ${1:condition} %>',
-    erb: '<%= ${1:condition} %>',
+    htmlComment: '<!-- ${1:comment} -->',
+    erbComment: '<%# ${1:comment} %>',
+    empty: '<% ${1:code} %>',
+    erb: '<%= ${1:code} %>',
     if: '<% if ${1:condition} %>',
     elsif: '<% elsif ${1:condition} %>',
     else: '<% else %>',

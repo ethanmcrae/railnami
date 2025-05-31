@@ -51,6 +51,14 @@
         "title": "Railnami: Create Stimulus Controller"
       },
       {
+        "command": "railnami.insertSnippet.htmlComment",
+        "title": "Railnami: Insert Snippet: HTML comment"
+      },
+      {
+        "command": "railnami.insertSnippet.erbComment",
+        "title": "Railnami: Insert Snippet: ERB comment"
+      },
+      {
         "command": "railnami.insertSnippet.empty",
         "title": "Railnami: Insert Snippet: empty"
       },
