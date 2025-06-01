@@ -9,8 +9,11 @@ import { MemoryStore } from './memory/memoryStore';
 import { createStimulusController } from './commands/createStimulusController';
 import { openControllerForCurrentFile, openModelForCurrentFile, openViewForCurrentFile } from './commands/openExpectedMVC';
 import openSchemaAtTable from './commands/openSchema';
+import { WorkspaceLocals } from './vscode/workspaceLocals';
 
 export function activate(context: vscode.ExtensionContext): void {
+  WorkspaceLocals.init(context);
+
   const treeProvider = new RailnamiTreeProvider();
   vscode.window.createTreeView('railnami', {
     treeDataProvider: treeProvider,

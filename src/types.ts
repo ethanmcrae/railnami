@@ -30,8 +30,15 @@ export interface RailsMapping {
   fileType: RailsFileType;
 }
 
-export interface MemoryEntry {
+export interface FileInfo {
   fileName: string;
   uri: Uri;
+}
+
+export interface MemoryEntry extends FileInfo {
   timestamp: number;
+}
+
+export interface CounterEntry extends FileInfo {
+  count: number;
 }
