@@ -1,5 +1,5 @@
 import pluralize from 'pluralize';
-import { RailsGeneratorType } from '../types';
+import { RailsResourceType } from '../types';
 import { demodulizeToFileName } from '../utils/pathUtils';
 
 export function humanName(className: string): string {
@@ -7,13 +7,13 @@ export function humanName(className: string): string {
 }
 
 export function buildFileNameFromGenerator(
-  generatorType: RailsGeneratorType,
+  resourceType: RailsResourceType,
   className: string,
   fileEnding = true
 ): string | null {
   let fileName: string | undefined;
 
-  switch (generatorType) {
+  switch (resourceType) {
     case 'model':
       fileName = modelFileName(className, false);
       break;
@@ -42,8 +42,8 @@ export function buildFileNameFromGenerator(
   return fileName ?? null;
 }
 
-export function assumePlurality(generatorType: RailsGeneratorType, className: string): string {
-  switch (generatorType) {
+export function assumePlurality(resourceType: RailsResourceType, className: string): string {
+  switch (resourceType) {
     case 'model':
     case 'mailer':
     case 'job':

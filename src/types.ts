@@ -1,6 +1,6 @@
 import { Uri } from "vscode";
 
-export type RailsGeneratorType =
+export type RailsResourceType =
   | 'model'
   | 'controller'
   | 'job'
@@ -27,7 +27,7 @@ export type RailsFileType =
   | 'channel';
 
 export interface RailsMapping {
-  generatorType: RailsGeneratorType;
+  resourceType: RailsResourceType;
   className: string;
   fileType: RailsFileType;
 }

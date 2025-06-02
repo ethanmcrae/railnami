@@ -12,14 +12,14 @@ export async function generateTestForCurrentFile(): Promise<void> {
     return;
   }
 
-  const { generatorType, className } = mapping;
+  const { resourceType, className } = mapping;
   const workspaceFolder = getWorkspaceFolder();
   if (!workspaceFolder) return;
 
   // Setup a listener for the test file to be created
   const watcher = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(workspaceFolder, '**/*.rb'));
   watcher.onDidCreate(async (uri: vscode.Uri) => {
-    const testFileUri = await getExpectedTestPath(generatorType, className, workspaceFolder);
+    const testFileUri = await getExpectedTestPath(resourceType, className, workspaceFolder);
     if (uri.toString() === testFileUri?.toString()) {
       const doc = await vscode.workspace.openTextDocument(uri);
       await vscode.window.showTextDocument(doc);
@@ -28,8 +28,8 @@ export async function generateTestForCurrentFile(): Promise<void> {
   });
 
   // Create test file
-  const pluralizedClassName = assumePlurality(generatorType, className);
+  const pluralizedClassName = assumePlurality(resourceType, className);
   const terminal = getOrCreateTerminal('Railnami');
   terminal.show();
-  terminal.sendText(`bin/rails generate test_unit:${generatorType} ${pluralizedClassName}`);
+  terminal.sendText(`bin/rails generate test_unit:${resourceType} ${pluralizedClassName}`);
 }

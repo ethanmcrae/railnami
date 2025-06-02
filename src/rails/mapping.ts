@@ -1,42 +1,42 @@
 import * as vscode from 'vscode';
-import { RailsFileType, RailsGeneratorType, RailsMapping } from '../types';
+import { RailsFileType, RailsResourceType, RailsMapping } from '../types';
 import { classify } from '../utils/pathUtils';
 
-interface Matcher<T extends RailsGeneratorType, F extends RailsFileType> {
+interface Matcher<T extends RailsResourceType, F extends RailsFileType> {
   pattern: RegExp;
-  generatorType: T;
+  resourceType: T;
   fileType: F;
   suffix?: string;
 }
 
 const sourceMatchers: Matcher<any, any>[] = [
   // Concerns
-  { pattern: /^app\/models\/concerns\/(.+)\.rb$/, generatorType: 'model', fileType: 'modelConcern' },
-  { pattern: /^app\/controllers\/concerns\/(.+)\.rb$/, generatorType: 'controller', fileType: 'controllerConcern' },
+  { pattern: /^app\/models\/concerns\/(.+)\.rb$/, resourceType: 'model', fileType: 'modelConcern' },
+  { pattern: /^app\/controllers\/concerns\/(.+)\.rb$/, resourceType: 'controller', fileType: 'controllerConcern' },
 
   // Stimulus controller
-  { pattern: /^app\/javascript\/controllers\/(.+)_controller\.(js|ts)$/, generatorType: 'controller', fileType: 'stimulusController', suffix: '_controller' },
+  { pattern: /^app\/javascript\/controllers\/(.+)_controller\.(js|ts)$/, resourceType: 'controller', fileType: 'stimulusController', suffix: '_controller' },
 
   // Models, Controllers, Views
-  { pattern: /^app\/models\/(.+)\.rb$/, generatorType: 'model', fileType: 'model' },
-  { pattern: /^app\/controllers\/(.+)_controller\.rb$/, generatorType: 'controller', fileType: 'controller', suffix: '_controller' },
-  { pattern: /^app\/views\/(.+?)\//, generatorType: 'controller', fileType: 'view' }, // Matches folders in views
+  { pattern: /^app\/models\/(.+)\.rb$/, resourceType: 'model', fileType: 'model' },
+  { pattern: /^app\/controllers\/(.+)_controller\.rb$/, resourceType: 'controller', fileType: 'controller', suffix: '_controller' },
+  { pattern: /^app\/views\/(.+?)\//, resourceType: 'controller', fileType: 'view' }, // Matches folders in views
 
   // Rails channels, mailers, jobs
-  { pattern: /^app\/jobs\/(.+)_job\.rb$/, generatorType: 'job', fileType: 'job', suffix: '_job' },
-  { pattern: /^app\/mailers\/(.+)_mailer\.rb$/, generatorType: 'mailer', fileType: 'mailer', suffix: '_mailer' },
-  { pattern: /^app\/channels\/(.+)_channel\.rb$/, generatorType: 'channel', fileType: 'channel', suffix: '_channel' },
+  { pattern: /^app\/jobs\/(.+)_job\.rb$/, resourceType: 'job', fileType: 'job', suffix: '_job' },
+  { pattern: /^app\/mailers\/(.+)_mailer\.rb$/, resourceType: 'mailer', fileType: 'mailer', suffix: '_mailer' },
+  { pattern: /^app\/channels\/(.+)_channel\.rb$/, resourceType: 'channel', fileType: 'channel', suffix: '_channel' },
 
   // Other catch-all
-  { pattern: /^app\/.+/, generatorType: 'other', fileType: 'other' },
+  { pattern: /^app\/.+/, resourceType: 'other', fileType: 'other' },
 ];
 
 const testMatchers: Matcher<any, any>[] = [
-  { pattern: /^test\/models\/(.+?)_model_test\.rb$/, generatorType: 'model', fileType: 'test' },
-  { pattern: /^test\/controllers\/(.+?)_controller_test\.rb$/, generatorType: 'controller', fileType: 'test' },
-  { pattern: /^test\/jobs\/(.+?)_job_test\.rb$/, generatorType: 'job', fileType: 'test' },
-  { pattern: /^test\/mailers\/(.+?)_mailer_test\.rb$/, generatorType: 'mailer', fileType: 'test' },
-  { pattern: /^test\/channels\/(.+?)_channel_test\.rb$/, generatorType: 'channel', fileType: 'test' }
+  { pattern: /^test\/models\/(.+?)_model_test\.rb$/, resourceType: 'model', fileType: 'test' },
+  { pattern: /^test\/controllers\/(.+?)_controller_test\.rb$/, resourceType: 'controller', fileType: 'test' },
+  { pattern: /^test\/jobs\/(.+?)_job_test\.rb$/, resourceType: 'job', fileType: 'test' },
+  { pattern: /^test\/mailers\/(.+?)_mailer_test\.rb$/, resourceType: 'mailer', fileType: 'test' },
+  { pattern: /^test\/channels\/(.+?)_channel_test\.rb$/, resourceType: 'channel', fileType: 'test' }
 ];
 
 export function getRailsMapping(filePath?: string): RailsMapping | null {
@@ -55,7 +55,7 @@ export function getRailsMapping(filePath?: string): RailsMapping | null {
         base = base.replace(new RegExp(`${m.suffix}$`), '');
       }
       return {
-        generatorType: m.generatorType,
+        resourceType: m.resourceType,
         className: classify(base),
         fileType: m.fileType,
       } as const;
@@ -66,7 +66,7 @@ export function getRailsMapping(filePath?: string): RailsMapping | null {
     const match = filePath.match(m.pattern);
     if (match) {
       return {
-        generatorType: m.generatorType,
+        resourceType: m.resourceType,
         className: classify(match[1]),
         fileType: m.fileType,
       } as const;

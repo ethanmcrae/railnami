@@ -9,7 +9,7 @@ export default async function showTesting(
   mapping: RailsMapping,
   items: ScriptItem[]
 ): Promise<void> {
-  const { fileType, generatorType, className } = mapping;
+  const { fileType, resourceType, className } = mapping;
   const isTestable = ['model', 'view', 'controller'].includes(fileType);
 
   if (fileType === 'test') {
@@ -17,7 +17,7 @@ export default async function showTesting(
   }
 
   else if (isTestable) {
-    const testFileUri = await getExpectedTestPath(generatorType, className, workspace);
+    const testFileUri = await getExpectedTestPath(resourceType, className, workspace);
     if (testFileUri) {
       items.push(openTestFileButton(mapping));
     } else {
