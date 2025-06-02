@@ -3,6 +3,7 @@ import { getRailsMapping } from '../rails/mapping';
 import { getExpectedTestPath } from '../rails/expectedPaths';
 import { getWorkspaceFolder } from '../vscode/fileUtils';
 import { getOrCreateTerminal } from '../vscode/terminal';
+import { assumePlurality } from '../rails/fileNames';
 
 export async function generateTestForCurrentFile(): Promise<void> {
   const mapping = getRailsMapping();
@@ -15,17 +16,20 @@ export async function generateTestForCurrentFile(): Promise<void> {
   const workspaceFolder = getWorkspaceFolder();
   if (!workspaceFolder) return;
 
+  // Setup a listener for the test file to be created
+  const watcher = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(workspaceFolder, '**/*.rb'));
+  watcher.onDidCreate(async (uri: vscode.Uri) => {
+    const testFileUri = await getExpectedTestPath(generatorType, className, workspaceFolder);
+    if (uri.toString() === testFileUri?.toString()) {
+      const doc = await vscode.workspace.openTextDocument(uri);
+      await vscode.window.showTextDocument(doc);
+      watcher.dispose();
+    }
+  });
+
+  // Create test file
+  const pluralizedClassName = assumePlurality(generatorType, className);
   const terminal = getOrCreateTerminal('Railnami');
   terminal.show();
-  terminal.sendText(`bin/rails generate test_unit:${generatorType} ${className}`);
-
-  const testFileUri = await getExpectedTestPath(generatorType, className, workspaceFolder);
-  // Poll for the generated file and offer to open it.  Future: consider using
-  // vscode.workspace.onDidCreateFiles for real‑time events.
-  setTimeout(async () => {
-    if (testFileUri) {
-      const doc = await vscode.workspace.openTextDocument(testFileUri);
-      await vscode.window.showTextDocument(doc);
-    }
-  }, 500);
+  terminal.sendText(`bin/rails generate test_unit:${generatorType} ${pluralizedClassName}`);
 }

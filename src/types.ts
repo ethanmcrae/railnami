@@ -9,6 +9,8 @@ export type RailsGeneratorType =
   | 'stimulusController'
   | 'modelConcern'
   | 'controllerConcern'
+  | 'helper'
+  | 'mailbox'
   | 'other';
 
 export type RailsFileType =
