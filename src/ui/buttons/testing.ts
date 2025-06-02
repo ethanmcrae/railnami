@@ -4,7 +4,7 @@ import { ScriptItem } from "../scriptItem";
 
 export function createGenerateTestButton(mapping: RailsMapping): ScriptItem {
   const modelName = humanName(mapping.className);
-  return new ScriptItem(`${modelName} Test`, mapping.generatorType, 'plus', {
+  return new ScriptItem('Test', `${modelName} ${mapping.generatorType}`, 'plus', {
     command: 'railnami.generateTestForCurrentFile',
     title: 'Create Test File'
   });
@@ -12,7 +12,7 @@ export function createGenerateTestButton(mapping: RailsMapping): ScriptItem {
 
 export function openTestFileButton(mapping: RailsMapping): ScriptItem {
   const modelName = humanName(mapping.className);
-  return new ScriptItem(`${modelName} Test`, mapping.generatorType, 'eye', {
+  return new ScriptItem('Test', `${modelName} ${mapping.generatorType}`, 'eye', {
     command: 'railnami.openTestForCurrentFile',
     title: 'View Test File'
   });

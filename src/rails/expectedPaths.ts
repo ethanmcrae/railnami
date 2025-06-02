@@ -2,21 +2,37 @@ import * as vscode from 'vscode';
 import pluralize from 'pluralize';
 import { RailsGeneratorType } from '../types';
 import { demodulizeToFileName } from '../utils/pathUtils';
+import { controllerFileName, modelFileName } from './fileNames';
+import { fileExists } from '../vscode/fileUtils';
 
 /**
  * Build the canonical *_test.rb path for a given Rails class.
  */
-export function getExpectedTestPath(
+export async function getExpectedTestPath(
   generatorType: RailsGeneratorType,
   className: string,
   workspaceFolder: vscode.WorkspaceFolder
-): vscode.Uri {
-  const fileName = demodulizeToFileName(className, "plural");
-  return vscode.Uri.joinPath(
+): Promise<vscode.Uri | null> {
+  let fileName: string | undefined;
+  switch (generatorType) {
+    case 'model':
+      fileName = modelFileName(className, false);
+      break;
+    case 'controller':
+      fileName = controllerFileName(className, false);
+      break;
+  }
+
+  if (!fileName) return null;
+
+  const uri = vscode.Uri.joinPath(
     workspaceFolder.uri,
     `test/${pluralize(generatorType)}`,
-    `${fileName}_${generatorType}_test.rb`
+    `${fileName}_test.rb`
   );
+
+  if (await fileExists(uri)) return uri;
+  return null;
 }
 
 /**
