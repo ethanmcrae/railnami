@@ -9,6 +9,7 @@ export function registerSnippetCommands(context: vscode.ExtensionContext) {
     if: '<% if ${1:condition} %>',
     elsif: '<% elsif ${1:condition} %>',
     else: '<% else %>',
+    unless: '<% unless ${1:condition} %>',
     end: '<% end %>',
     ifend: '<% if ${1:condition} %>\n  $0\n<% end %>',
     ifelsend: '<% if \${1:condition1} %>\n' +

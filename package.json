@@ -79,6 +79,10 @@
         "title": "Railnami: Insert Snippet: else"
       },
       {
+        "command": "railnami.insertSnippet.unless",
+        "title": "Railnami: Insert Snippet: unless"
+      },
+      {
         "command": "railnami.insertSnippet.end",
         "title": "Railnami: Insert Snippet: end"
       },
