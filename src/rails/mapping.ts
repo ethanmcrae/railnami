@@ -32,7 +32,7 @@ const sourceMatchers: Matcher<any, any>[] = [
 ];
 
 const testMatchers: Matcher<any, any>[] = [
-  { pattern: /^test\/models\/(.+?)_model_test\.rb$/, resourceType: 'model', fileType: 'test' },
+  { pattern: /^test\/models\/(.+?)_test\.rb$/, resourceType: 'model', fileType: 'test' },
   { pattern: /^test\/controllers\/(.+?)_controller_test\.rb$/, resourceType: 'controller', fileType: 'test' },
   { pattern: /^test\/jobs\/(.+?)_job_test\.rb$/, resourceType: 'job', fileType: 'test' },
   { pattern: /^test\/mailers\/(.+?)_mailer_test\.rb$/, resourceType: 'mailer', fileType: 'test' },
